@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { styled, alpha } from '@mui/material/styles'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
@@ -11,6 +11,7 @@ import SearchIcon from '@mui/icons-material/Search'
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter'
 import FactCheckIcon from '@mui/icons-material/FactCheck'
 import StarIcon from '@mui/icons-material/Star'
+import CloseIcon from '@mui/icons-material/Close'
 
 import { store } from '../store/store'
 
@@ -25,6 +26,11 @@ import AndroidIcon from '@mui/icons-material/Android'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { getFavs } from '../utils/addToFavs'
+import {
+  resetSearchTerm,
+  getSearchTerm,
+  updateSearchTerm,
+} from '../utils/search'
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -69,8 +75,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function SearchAppBar() {
   const [open, setOpen] = useState(false)
+  const [searchTerm, setSearchTerm] = useState(getSearchTerm())
   const { pathname } = useRouter()
   const favsQuantity = getFavs().length
+
+  useEffect(() => {
+    updateSearchTerm(searchTerm)
+  }, [searchTerm])
 
   const ejercicios = [
     {
@@ -130,10 +141,21 @@ export default function SearchAppBar() {
             <StyledInputBase
               placeholder='Search…'
               inputProps={{ 'aria-label': 'search' }}
-              onChange={e =>
-                store.dispatch({ type: 'SEARCH', payload: e.target.value })
-              }
+              onChange={e => setSearchTerm(e.target.value)}
+              value={searchTerm}
             />
+            <IconButton
+              onClick={() => {
+                resetSearchTerm()
+                setSearchTerm('')
+              }}
+            >
+              <CloseIcon
+                sx={{
+                  alignSelf: 'center',
+                }}
+              />
+            </IconButton>
           </Search>
         </Toolbar>
       </AppBar>

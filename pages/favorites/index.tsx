@@ -4,9 +4,14 @@ import { Box, Typography } from '@mui/material'
 import CardComponent from '../../components/Card'
 import { Character } from '../../types/Character'
 import { getFavs } from '../../utils/addToFavs'
+import { getSearchTerm } from '../../utils/search'
+import { store } from '../../store/store'
 
 const FavoritesPage = () => {
   const [characters, setCharacters] = useState<Character[]>(getFavs())
+  const [searchTerm, setSearchTerm] = useState(getSearchTerm())
+  store.subscribe(() => setSearchTerm(store.getState().search.search))
+
   return characters.length > 0 ? (
     <Box
       sx={{
@@ -17,17 +22,33 @@ const FavoritesPage = () => {
         gap: '1rem 1rem',
       }}
     >
-      {characters.map(({ id, image, name, species }) => {
-        return (
-          <CardComponent
-            id={id}
-            image={image}
-            key={id}
-            species={species}
-            name={name}
-          />
-        )
-      })}
+      {searchTerm === ''
+        ? characters.map(({ id, image, name, species }) => {
+            return (
+              <CardComponent
+                id={id}
+                image={image}
+                key={id}
+                species={species}
+                name={name}
+              />
+            )
+          })
+        : characters
+            .filter(character =>
+              character.name.toLowerCase().includes(searchTerm.toLowerCase())
+            )
+            .map(({ id, image, name, species }) => {
+              return (
+                <CardComponent
+                  id={id}
+                  image={image}
+                  key={id}
+                  species={species}
+                  name={name}
+                />
+              )
+            })}
     </Box>
   ) : (
     <Box

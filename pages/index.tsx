@@ -7,9 +7,13 @@ import { Box } from '@mui/material'
 import { GET_CHARACTERS } from '../utils/queries'
 import { Character } from '../types/Character'
 import CardComponent from '../components/Card'
+import { getSearchTerm } from '../utils/search'
+import { store } from '../store/store'
 
 const Home: NextPage = () => {
   const [characters, setCharacters] = useState<Character[]>([])
+  const [searchTerm, setSearchTerm] = useState(getSearchTerm())
+  store.subscribe(() => setSearchTerm(store.getState().search.search))
   const { data, error, loading } = useQuery(GET_CHARACTERS)
 
   useEffect(() => {
@@ -17,6 +21,7 @@ const Home: NextPage = () => {
     if (error) setCharacters([])
     if (data) setCharacters(data.characters.results)
   }, [data, loading, error])
+
   return (
     <div className='text-3xl font-bold underline'>
       {loading ? (
@@ -33,17 +38,35 @@ const Home: NextPage = () => {
             gap: '1rem 1rem',
           }}
         >
-          {characters.map(({ id, image, name, species }) => {
-            return (
-              <CardComponent
-                id={id}
-                image={image}
-                key={id}
-                species={species}
-                name={name}
-              />
-            )
-          })}
+          {searchTerm === ''
+            ? characters.map(({ id, image, name, species }) => {
+                return (
+                  <CardComponent
+                    id={id}
+                    image={image}
+                    key={id}
+                    species={species}
+                    name={name}
+                  />
+                )
+              })
+            : characters
+                .filter(character =>
+                  character.name
+                    .toLowerCase()
+                    .includes(searchTerm.toLowerCase())
+                )
+                .map(({ id, image, name, species }) => {
+                  return (
+                    <CardComponent
+                      id={id}
+                      image={image}
+                      key={id}
+                      species={species}
+                      name={name}
+                    />
+                  )
+                })}
         </Box>
       )}
     </div>
