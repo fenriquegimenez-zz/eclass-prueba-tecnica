@@ -83,7 +83,7 @@ export default function SearchAppBar() {
     updateSearchTerm(searchTerm)
   }, [searchTerm])
 
-  const ejercicios = [
+  const exercises = [
     {
       title: 'Characters',
       url: '/',
@@ -95,12 +95,12 @@ export default function SearchAppBar() {
       icon: <StarIcon />,
     },
     {
-      title: 'Ejercicio 1',
+      title: 'Exercise 1',
       url: '/ejercicio1',
       icon: <FitnessCenterIcon />,
     },
     {
-      title: 'Ejercicio 2',
+      title: 'Exercise 2',
       url: '/ejercicio2',
       icon: <FactCheckIcon />,
     },
@@ -181,7 +181,7 @@ export default function SearchAppBar() {
             <Typography variant='h4'>Menu</Typography>
           </Box>
           <List>
-            {ejercicios.map(item => {
+            {exercises.map(item => {
               return (
                 <Link href={item.url} passHref key={item.title}>
                   <ListItem button onClick={() => setOpen(false)}>
