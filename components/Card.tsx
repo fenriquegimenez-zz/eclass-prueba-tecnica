@@ -1,19 +1,21 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import {
-  Button,
   Card,
   CardActions,
   CardContent,
   CardMedia,
+  Tooltip,
   Typography,
 } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import StarBorderIcon from '@mui/icons-material/StarBorder'
 import StarIcon from '@mui/icons-material/Star'
+import InfoIcon from '@mui/icons-material/Info'
 
 import { Character } from '../types/Character'
 import { addToFavs, alreadyFav, removeFromFavs } from '../utils/addToFavs'
+import { setLastId } from '../utils/idActions'
 
 const CardComponent = ({ id, image, name, species }: Character) => {
   const [addedToFavs, setAddedToFavs] = useState(alreadyFav(id))
@@ -29,13 +31,22 @@ const CardComponent = ({ id, image, name, species }: Character) => {
   }
 
   return (
-    <Card sx={{ maxWidth: 345, cursor: 'pointer' }} key={id}>
-      <CardMedia
-        component='img'
-        height='200'
-        image={image}
-        alt={`${name}'s picture`}
-      />
+    <Card
+      sx={{
+        maxWidth: 345,
+        cursor: 'pointer',
+      }}
+      key={id}
+    >
+      <Link href={`/character/${id}`}>
+        <CardMedia
+          component='img'
+          height='200'
+          image={image}
+          alt={`${name}'s picture`}
+          onClick={() => setLastId(id)}
+        />
+      </Link>
       <CardContent>
         <Typography gutterBottom variant='h5' component='div'>
           {name}
@@ -43,18 +54,26 @@ const CardComponent = ({ id, image, name, species }: Character) => {
         <Typography variant='body2' color='text.secondary'>
           {species}
         </Typography>
-        <CardActions>
+        <CardActions disableSpacing>
           <Link href={`/character/${id}`}>
-            <Button size='small'>View info</Button>
+            <Tooltip title='View more info' onClick={() => setLastId(id)}>
+              <IconButton>
+                <InfoIcon />
+              </IconButton>
+            </Tooltip>
           </Link>
-          <IconButton
-            onClick={handleFavorite}
-            sx={{
-              color: addedToFavs ? 'yellow' : '',
-            }}
+          <Tooltip
+            title={addedToFavs ? 'Remove from favorites' : 'Add to favorites'}
           >
-            {addedToFavs ? <StarIcon /> : <StarBorderIcon />}
-          </IconButton>
+            <IconButton
+              onClick={handleFavorite}
+              sx={{
+                color: addedToFavs ? 'yellow' : '',
+              }}
+            >
+              {addedToFavs ? <StarIcon /> : <StarBorderIcon />}
+            </IconButton>
+          </Tooltip>
         </CardActions>
       </CardContent>
     </Card>

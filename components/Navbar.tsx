@@ -85,7 +85,7 @@ export default function SearchAppBar() {
 
   const ejercicios = [
     {
-      title: 'Rick and Morty',
+      title: 'Characters',
       url: '/',
       icon: <AndroidIcon />,
     },
@@ -107,8 +107,8 @@ export default function SearchAppBar() {
   ]
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position='static'>
+    <Box sx={{ flexGrow: 1, marginBottom: '5rem' }}>
+      <AppBar position='fixed'>
         <Toolbar>
           <IconButton
             size='large'
@@ -131,7 +131,7 @@ export default function SearchAppBar() {
                 cursor: 'pointer',
               }}
             >
-              {pathname === '/' ? 'INICIO' : 'IR A INICIO'}
+              {pathname === '/' ? 'Home' : 'Go to home'}
             </Typography>
           </Link>
           <Search>
@@ -178,7 +178,7 @@ export default function SearchAppBar() {
               alignItems: 'center',
             }}
           >
-            <Typography variant='h4'>Menú</Typography>
+            <Typography variant='h4'>Menu</Typography>
           </Box>
           <List>
             {ejercicios.map(item => {

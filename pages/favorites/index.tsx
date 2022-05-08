@@ -9,15 +9,22 @@ import { store } from '../../store/store'
 
 const FavoritesPage = () => {
   const [characters, setCharacters] = useState<Character[]>(getFavs())
+  store.subscribe(() => setCharacters(getFavs()))
   const [searchTerm, setSearchTerm] = useState(getSearchTerm())
-  store.subscribe(() => setSearchTerm(store.getState().search.search))
+  store.subscribe(() => setSearchTerm(getSearchTerm()))
 
   return characters.length > 0 ? (
     <Box
       sx={{
         display: 'grid',
         gridAutoColumns: '1fr',
-        gridTemplateColumns: 'repeat(5, 1fr)',
+        gridTemplateColumns: {
+          xs: 'repeat(1, 1fr)',
+          sm: 'repeat(2, 1fr)',
+          md: 'repeat(3, 1fr)',
+          lg: 'repeat(4, 1fr)',
+          xl: 'repeat(5, 1fr)',
+        },
         gridTemplateRows: 'repeat(5, 1fr)',
         gap: '1rem 1rem',
       }}

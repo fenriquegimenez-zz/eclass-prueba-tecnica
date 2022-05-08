@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import type { NextPage } from 'next'
 import { useQuery } from '@apollo/client'
-import { Typography } from '@mui/material'
 import { Box } from '@mui/material'
 
 import { GET_CHARACTERS } from '../utils/queries'
@@ -9,6 +8,7 @@ import { Character } from '../types/Character'
 import CardComponent from '../components/Card'
 import { getSearchTerm } from '../utils/search'
 import { store } from '../store/store'
+import Loading from '../components/Loading'
 
 const Home: NextPage = () => {
   const [characters, setCharacters] = useState<Character[]>([])
@@ -25,7 +25,7 @@ const Home: NextPage = () => {
   return (
     <div className='text-3xl font-bold underline'>
       {loading ? (
-        <Typography>{loading ? 'Cargando' : ''}</Typography>
+        <Loading />
       ) : error ? (
         <p>Hubo un error</p>
       ) : (
@@ -33,7 +33,13 @@ const Home: NextPage = () => {
           sx={{
             display: 'grid',
             gridAutoColumns: '1fr',
-            gridTemplateColumns: 'repeat(5, 1fr)',
+            gridTemplateColumns: {
+              xs: 'repeat(1, 1fr)',
+              sm: 'repeat(2, 1fr)',
+              md: 'repeat(3, 1fr)',
+              lg: 'repeat(4, 1fr)',
+              xl: 'repeat(5, 1fr)',
+            },
             gridTemplateRows: 'repeat(5, 1fr)',
             gap: '1rem 1rem',
           }}
