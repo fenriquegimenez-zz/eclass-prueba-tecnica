@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useQuery } from '@apollo/client'
-import { Box, Button, Card, IconButton, Tooltip } from '@mui/material'
+import { Box, Button, Tooltip } from '@mui/material'
 import { Typography } from '@mui/material'
 import CircleIcon from '@mui/icons-material/Circle'
 import StarIcon from '@mui/icons-material/Star'
@@ -10,10 +10,10 @@ import StarBorderIcon from '@mui/icons-material/StarBorder'
 import { GET_SINGLE_CHARACTER } from '../../utils/queries'
 import { getLastId } from '../../utils/idActions'
 import Loading from '../../components/Loading'
-
-import styles from './CharacterPage.module.css'
 import { addToFavs, alreadyFav, removeFromFavs } from '../../utils/addToFavs'
 import { store } from '../../store/store'
+
+import styles from './CharacterPage.module.css'
 
 interface CharacterDetail {
   name: string
