@@ -1,10 +1,13 @@
-export const sum = (array: number[]) => {
+export const exercise = (array: number[]) => {
   const MAX = 20
-  array.reduce((accumulator, current) => {
+  const sum = array.reduce((accumulator, current) => {
     if (current > MAX && current % 2 === 0) {
       current = MAX
     }
     accumulator += current
     return accumulator
   })
+  return (action: (args: number) => void) => {
+    action(sum)
+  }
 }
