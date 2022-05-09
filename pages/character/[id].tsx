@@ -14,6 +14,7 @@ import { addToFavs, alreadyFav, removeFromFavs } from '../../utils/addToFavs'
 import { store } from '../../store/store'
 
 import styles from './CharacterPage.module.css'
+import { Character } from '../../types/Character'
 
 interface CharacterDetail {
   name: string
@@ -28,8 +29,16 @@ interface CharacterDetail {
   status: string
 }
 
-const { container, image, name, species, status, origin, location, favorite } =
-  styles
+const {
+  container,
+  image,
+  nameStyle,
+  species,
+  status,
+  origin,
+  location,
+  favorite,
+} = styles
 
 const CharacterPage = () => {
   const [character, setCharacter] = useState<CharacterDetail>()
@@ -49,9 +58,14 @@ const CharacterPage = () => {
   }, [data, error, loading])
 
   const handleFavorite = () => {
-    if (!isFav) {
+    if (!isFav && character) {
       setIsFav(true)
-      addToFavs({ id: getLastId(), image, name, species })
+      addToFavs({
+        id: getLastId(),
+        image: character.image,
+        name: character.name,
+        species: character.species,
+      })
     } else {
       setIsFav(false)
       removeFromFavs(getLastId())
@@ -99,7 +113,7 @@ const CharacterPage = () => {
               </Button>
             </Tooltip>
           </div>
-          <div className={name}>
+          <div className={nameStyle}>
             <Typography
               variant='h1'
               align='left'

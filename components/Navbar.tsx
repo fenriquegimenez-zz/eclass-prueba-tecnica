@@ -16,6 +16,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import { store } from '../store/store'
 
 import {
+  Badge,
   Drawer,
   List,
   ListItem,
@@ -90,9 +91,13 @@ export default function SearchAppBar() {
       icon: <AndroidIcon />,
     },
     {
-      title: `Favorites${favsQuantity > 0 ? ` (${favsQuantity})` : ''}`,
+      title: 'Favorites',
       url: '/favorites',
-      icon: <StarIcon />,
+      icon: (
+        <Badge badgeContent={favsQuantity} color='primary'>
+          <StarIcon />
+        </Badge>
+      ),
     },
     {
       title: 'Exercise 1',

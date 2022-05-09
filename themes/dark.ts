@@ -1,14 +1,16 @@
 import { colors, createTheme } from '@mui/material'
+import { teal } from '@mui/material/colors'
 
 export const darkTheme = createTheme({
   palette: {
     mode: 'dark',
+    primary: teal,
   },
   components: {
     MuiAppBar: {
       styleOverrides: {
         root: {
-          backgroundColor: colors.teal[200],
+          backgroundColor: teal[500],
         },
       },
     },
