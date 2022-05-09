@@ -13,11 +13,11 @@ import IconButton from '@mui/material/IconButton'
 import StarBorderIcon from '@mui/icons-material/StarBorder'
 import StarIcon from '@mui/icons-material/Star'
 import InfoIcon from '@mui/icons-material/Info'
+import CloseIcon from '@mui/icons-material/Close'
 
 import { Character } from '../types/Character'
 import { addToFavs, alreadyFav, removeFromFavs } from '../utils/addToFavs'
 import { setLastId } from '../utils/idActions'
-import CloseIcon from '@mui/icons-material/Close'
 
 const CardComponent = ({ id, image, name, species }: Character) => {
   const [addedToFavs, setAddedToFavs] = useState(alreadyFav(id))

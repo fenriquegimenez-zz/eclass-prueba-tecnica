@@ -15,7 +15,6 @@ import { addToFavs, alreadyFav, removeFromFavs } from '../../utils/addToFavs'
 import { store } from '../../store/store'
 
 import styles from './CharacterPage.module.css'
-import { Character } from '../../types/Character'
 
 interface CharacterDetail {
   name: string

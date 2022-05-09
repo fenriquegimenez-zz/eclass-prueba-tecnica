@@ -78,7 +78,8 @@ export default function SearchAppBar() {
   const [open, setOpen] = useState(false)
   const [searchTerm, setSearchTerm] = useState(getSearchTerm())
   const { pathname } = useRouter()
-  const favsQuantity = getFavs().length
+  const [favsQuantity, setFavsQuantity] = useState(getFavs().length)
+  store.subscribe(() => setFavsQuantity(getFavs().length))
 
   useEffect(() => {
     updateSearchTerm(searchTerm)
@@ -123,7 +124,9 @@ export default function SearchAppBar() {
             sx={{ mr: 2 }}
             onClick={() => setOpen(prev => !prev)}
           >
-            <MenuIcon />
+            <Badge badgeContent={favsQuantity} variant='dot' color='error'>
+              <MenuIcon />
+            </Badge>
           </IconButton>
           <Link href='/'>
             <Typography
