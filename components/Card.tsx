@@ -5,6 +5,7 @@ import {
   CardActions,
   CardContent,
   CardMedia,
+  Snackbar,
   Tooltip,
   Typography,
 } from '@mui/material'
@@ -16,14 +17,17 @@ import InfoIcon from '@mui/icons-material/Info'
 import { Character } from '../types/Character'
 import { addToFavs, alreadyFav, removeFromFavs } from '../utils/addToFavs'
 import { setLastId } from '../utils/idActions'
+import CloseIcon from '@mui/icons-material/Close'
 
 const CardComponent = ({ id, image, name, species }: Character) => {
   const [addedToFavs, setAddedToFavs] = useState(alreadyFav(id))
+  const [openSnackBar, setOpenSnackBar] = useState(false)
 
   const handleFavorite = () => {
     if (!addedToFavs) {
       setAddedToFavs(true)
       addToFavs({ id, image, name, species })
+      setOpenSnackBar(true)
     } else {
       setAddedToFavs(false)
       removeFromFavs(id)
@@ -74,6 +78,26 @@ const CardComponent = ({ id, image, name, species }: Character) => {
               {addedToFavs ? <StarIcon /> : <StarBorderIcon />}
             </IconButton>
           </Tooltip>
+          <Snackbar
+            open={openSnackBar}
+            autoHideDuration={3000}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'center',
+            }}
+            message='Added to favorites'
+            onClose={() => setOpenSnackBar(false)}
+            action={
+              <IconButton
+                size='small'
+                aria-label='close'
+                color='inherit'
+                onClick={() => setOpenSnackBar(false)}
+              >
+                <CloseIcon fontSize='medium' />
+              </IconButton>
+            }
+          />
         </CardActions>
       </CardContent>
     </Card>

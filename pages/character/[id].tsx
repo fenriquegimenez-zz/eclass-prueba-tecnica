@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useQuery } from '@apollo/client'
-import { Box, Button, Tooltip } from '@mui/material'
+import { Box, Button, IconButton, Snackbar, Tooltip } from '@mui/material'
 import { Typography } from '@mui/material'
 import CircleIcon from '@mui/icons-material/Circle'
 import StarIcon from '@mui/icons-material/Star'
 import StarBorderIcon from '@mui/icons-material/StarBorder'
+import CloseIcon from '@mui/icons-material/Close'
 
 import { GET_SINGLE_CHARACTER } from '../../utils/queries'
 import { getLastId } from '../../utils/idActions'
@@ -49,6 +50,7 @@ const CharacterPage = () => {
       id: getLastId(),
     },
   })
+  const [openSnackBar, setOpenSnackBar] = useState(false)
 
   useEffect(() => {
     if (loading) return
@@ -66,6 +68,7 @@ const CharacterPage = () => {
         name: character.name,
         species: character.species,
       })
+      setOpenSnackBar(true)
     } else {
       setIsFav(false)
       removeFromFavs(getLastId())
@@ -109,6 +112,26 @@ const CharacterPage = () => {
                 <Typography variant='h6' mr='1rem'>
                   Fav:{' '}
                 </Typography>
+                <Snackbar
+                  open={openSnackBar}
+                  autoHideDuration={3000}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'center',
+                  }}
+                  message='Added to favorites'
+                  onClose={() => setOpenSnackBar(false)}
+                  action={
+                    <IconButton
+                      size='small'
+                      aria-label='close'
+                      color='inherit'
+                      onClick={() => setOpenSnackBar(false)}
+                    >
+                      <CloseIcon fontSize='medium' />
+                    </IconButton>
+                  }
+                />
                 {isFav ? <StarIcon /> : <StarBorderIcon />}
               </Button>
             </Tooltip>
